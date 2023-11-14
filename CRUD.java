@@ -1,15 +1,26 @@
 import java.util.*;
+import java.io.*;
 
 public class CRUD{
 
     public static void main(String[] args){
         ArrayList<String> data = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
+        String fileName = "data.txt";
 
+        try{
+            FileInputStream FIS = new FileInputStream(fileName);
+            ObjectInputStream OIS = new ObjectInputStream(FIS);
+            data = (ArrayList<String>) OIS.readObject();
+            OIS.close();
+            FIS.close();
+        } catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
 
-        boolean running = true;
+        boolean run = true;
 
-    while(running)
+    while(run)
     {
         System.out.println("1. Create");
         System.out.println("2. Read");
@@ -66,7 +77,7 @@ public class CRUD{
             break;
 
             case 5:
-                running = false;
+                run = false;
             break;
 
             default:
@@ -74,6 +85,16 @@ public class CRUD{
             break;
         }
     }
+
+        try{
+            FileOutputStream FOS = new FileOutputStream(fileName);
+            ObjectOutputStream OOS = new ObjectOutputStream(FOS);
+            OOS.writeObject(data);
+            OOS.close();
+            FOS.close();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
         
     }
 }
