@@ -35,7 +35,7 @@ public class CRUD{
             case 1: 
                 System.out.print("Enter data: ");
 
-                String input = sc.nextLine();
+                String input = validateStringInput(sc);
                 data.add(input);
             break;
 
@@ -54,7 +54,7 @@ public class CRUD{
                 if(index >= 0 && index < data.size())
                 {
                     System.out.print("Enter new data: ");
-                    String newData = sc.nextLine();
+                    String newData = validateStringInput(sc);
                     data.set(index, newData);
                 } else
                 {
@@ -97,4 +97,30 @@ public class CRUD{
         }
         
     }
+
+    // Trappings for inputting an Integer to a data
+    // String only
+    private static String validateStringInput(Scanner sc)
+    {
+        String input = "";
+        boolean isValid = false;
+
+        while(!isValid)
+        {
+            try{
+                input = sc.next(); // Reads the next as a String
+
+                Integer.parseInt(input); // Attempt to parse the input as an integer to check for non-integer values
+                // If parsing succeeds, its not a valid string
+                System.out.println("Sorry invalid input. Please enter a valid String to enter a data");
+            } catch(NumberFormatException e)
+            {
+                // Parsing failed, its a valid String
+                isValid = true;
+                sc.nextLine();
+            }
+        }
+        return input;
+    }
 }
+
